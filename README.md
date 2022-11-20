@@ -15,7 +15,7 @@ public class UdonTestSample : UdonSharpBehaviour
         Assert.True(true); // OK!
         Assert.True(false); // FAILED!
 
-        Assert.False(true); // FAILED!
+        Assert.False(false); // OK!
         Assert.False(true); // FAILED!
 
         Assert.Null(null); // OK!
@@ -34,4 +34,4 @@ public class UdonTestSample : UdonSharpBehaviour
 }
 ```
 
-![image](https://user-images.githubusercontent.com/6698252/202898150-4e2b6421-ea0c-49d0-9e9e-6ae0f3e6f032.png)
+![image](https://user-images.githubusercontent.com/6698252/202899749-1b069abc-863a-4786-9fd5-2313c35aa58e.png)

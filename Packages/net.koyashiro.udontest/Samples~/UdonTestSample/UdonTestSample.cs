@@ -8,7 +8,7 @@ public class UdonTestSample : UdonSharpBehaviour
         Assert.True(true); // OK!
         Assert.True(false); // FAILED!
 
-        Assert.False(true); // FAILED!
+        Assert.False(false); // OK!
         Assert.False(true); // FAILED!
 
         Assert.Null(null); // OK!
