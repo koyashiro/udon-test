@@ -1,10 +1,3 @@
-# UdonTest
-
-Simple test library for UdonSharp.
-
-## Example
-
-```cs
 using UdonSharp;
 using Koyashiro.UdonTest;
 
@@ -32,6 +25,3 @@ public class UdonTestSample : UdonSharpBehaviour
         Assert.Equal(new string[] { "first", "second", "third" }, new string[] { "first", "second" }); // FAILED!
     }
 }
-```
-
-![image](https://user-images.githubusercontent.com/6698252/202898150-4e2b6421-ea0c-49d0-9e9e-6ae0f3e6f032.png)
