@@ -59,26 +59,30 @@ namespace Koyashiro.UdonTest
         {
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
-            Debug.Log($"[<color=cyan>UdonTest</color>] Test <color={CULOR_OK}>OK!</color>\nexpected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})    actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
+            Debug.Log($"[<color={COLOR_TAG}>UdonTest</color>] Test <color={CULOR_OK}>OK!</color>\nexpected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})    actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
         }
 
         private static void LogFailed(object expected, object actual)
         {
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
-            Debug.LogError($"[<color=cyan>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\nexpected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})    actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
+            Debug.LogError($"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\nexpected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})    actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
         }
 
         [RecursiveMethod]
         private static new bool Equals(object objA, object objB)
         {
+            if (objA == null && objB == null)
+            {
+                return true;
+            }
+
             if (
-                (objA == null && objB == null)
-                || (objA == null && objB != null)
+                (objA == null && objB != null)
                 || (objA != null && objB == null)
             )
             {
-                return true;
+                return false;
             }
 
             var objAType = objA.GetType();
@@ -165,13 +169,17 @@ namespace Koyashiro.UdonTest
         [RecursiveMethod]
         private static bool Equals<TA, TB>(TA[] objA, TB[] objB)
         {
+            if (objA == null && objB == null)
+            {
+                return true;
+            }
+
             if (
-                (objA == null && objB == null)
-                || (objA == null && objB != null)
+                (objA == null && objB != null)
                 || (objA != null && objB == null)
             )
             {
-                return true;
+                return false;
             }
 
             if (objA.GetType() != objB.GetType())
@@ -184,9 +192,9 @@ namespace Koyashiro.UdonTest
                 return false;
             }
 
-            for (var i = 0; i < objA.Length; i++)
+            for (int i = 0, l = objA.Length; i < l; i++)
             {
-                if (!Equals(objA[i], objA[i]))
+                if (!Equals(objA[i], objB[i]))
                 {
                     return false;
                 }
@@ -210,9 +218,9 @@ namespace Koyashiro.UdonTest
                 return ToDebugString((bool[])obj);
             }
 
-            if (objType == typeof(byte[]))
+            if (objType == typeof(char[]))
             {
-                return ToDebugString((byte[])obj);
+                return ToDebugString((char[])obj);
             }
 
             if (objType == typeof(sbyte[]))
@@ -220,19 +228,19 @@ namespace Koyashiro.UdonTest
                 return ToDebugString((sbyte[])obj);
             }
 
-            if (objType == typeof(char[]))
+            if (objType == typeof(byte[]))
             {
-                return ToDebugString((char[])obj);
+                return ToDebugString((byte[])obj);
             }
 
-            if (objType == typeof(double[]))
+            if (objType == typeof(short[]))
             {
-                return ToDebugString((double[])obj);
+                return ToDebugString((short[])obj);
             }
 
-            if (objType == typeof(float[]))
+            if (objType == typeof(ushort[]))
             {
-                return ToDebugString((float[])obj);
+                return ToDebugString((ushort[])obj);
             }
 
             if (objType == typeof(int[]))
@@ -255,24 +263,29 @@ namespace Koyashiro.UdonTest
                 return ToDebugString((ulong[])obj);
             }
 
-            if (objType == typeof(short[]))
+            if (objType == typeof(float[]))
             {
-                return ToDebugString((short[])obj);
+                return ToDebugString((float[])obj);
             }
 
-            if (objType == typeof(ushort[]))
+            if (objType == typeof(double[]))
             {
-                return ToDebugString((ushort[])obj);
+                return ToDebugString((double[])obj);
             }
 
-            if (objType == typeof(object[]))
+            if (objType == typeof(decimal[]))
             {
-                return ToDebugString((object[])obj);
+                return ToDebugString((decimal[])obj);
             }
 
             if (objType == typeof(string[]))
             {
                 return ToDebugString((string[])obj);
+            }
+
+            if (objType == typeof(object[]))
+            {
+                return ToDebugString((object[])obj);
             }
 
             if (objType == typeof(string))
@@ -286,18 +299,18 @@ namespace Koyashiro.UdonTest
         [RecursiveMethod]
         private static string ToDebugString<T>(T[] obj)
         {
-            var array = (T[])obj;
-            var s = "[";
-            for (var i = 0; i < array.Length; i++)
+            if (obj == null)
             {
-                if (i != 0)
-                {
-                    s += ", ";
-                }
-                s += ToDebugString(array[i]);
+                return "null";
             }
-            s += "]";
-            return s;
+
+            var array = (T[])obj;
+            var buf = new string[array.Length];
+            for (int i = 0, l = array.Length; i < l; i++)
+            {
+                buf[i] = ToDebugString(array[i]);
+            }
+            return $"[{string.Join(", ", buf)}]";
         }
     }
 }
