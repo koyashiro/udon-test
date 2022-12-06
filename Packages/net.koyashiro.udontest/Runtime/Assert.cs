@@ -98,9 +98,9 @@ namespace Koyashiro.UdonTest
                 return Equals((bool[])objA, (bool[])objB);
             }
 
-            if (objAType == typeof(byte[]))
+            if (objAType == typeof(char[]))
             {
-                return Equals((byte[])objA, (byte[])objB);
+                return Equals((char[])objA, (char[])objB);
             }
 
             if (objAType == typeof(sbyte[]))
@@ -108,19 +108,19 @@ namespace Koyashiro.UdonTest
                 return Equals((sbyte[])objA, (sbyte[])objB);
             }
 
-            if (objAType == typeof(char[]))
+            if (objAType == typeof(byte[]))
             {
-                return Equals((char[])objA, (char[])objB);
+                return Equals((byte[])objA, (byte[])objB);
             }
 
-            if (objAType == typeof(double[]))
+            if (objAType == typeof(short[]))
             {
-                return Equals((double[])objA, (double[])objB);
+                return Equals((short[])objA, (short[])objB);
             }
 
-            if (objAType == typeof(float[]))
+            if (objAType == typeof(ushort[]))
             {
-                return Equals((float[])objA, (float[])objB);
+                return Equals((ushort[])objA, (ushort[])objB);
             }
 
             if (objAType == typeof(int[]))
@@ -143,14 +143,19 @@ namespace Koyashiro.UdonTest
                 return Equals((ulong[])objA, (ulong[])objB);
             }
 
-            if (objAType == typeof(short[]))
+            if (objAType == typeof(float[]))
             {
-                return Equals((short[])objA, (short[])objB);
+                return Equals((float[])objA, (float[])objB);
             }
 
-            if (objAType == typeof(ushort[]))
+            if (objAType == typeof(double[]))
             {
-                return Equals((ushort[])objA, (ushort[])objB);
+                return Equals((double[])objA, (double[])objB);
+            }
+
+            if (objAType == typeof(decimal[]))
+            {
+                return Equals((decimal[])objA, (decimal[])objB);
             }
 
             if (objAType == typeof(string[]))
