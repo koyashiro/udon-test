@@ -86,10 +86,9 @@ namespace Koyashiro.UdonTest
             {
                 return objB == null;
             }
-
-            if (objB == null)
+            else if (objB == null)
             {
-                return objA == null;
+                return false;
             }
 
             var objAType = objA.GetType();
