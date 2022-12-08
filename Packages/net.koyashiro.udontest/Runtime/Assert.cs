@@ -91,21 +91,8 @@ namespace Koyashiro.UdonTest
                 return false;
             }
 
-            if (objAType == typeof(bool[])
-             || objAType == typeof(char[])
-             || objAType == typeof(sbyte[])
-             || objAType == typeof(byte[])
-             || objAType == typeof(short[])
-             || objAType == typeof(ushort[])
-             || objAType == typeof(int[])
-             || objAType == typeof(uint[])
-             || objAType == typeof(long[])
-             || objAType == typeof(ulong[])
-             || objAType == typeof(float[])
-             || objAType == typeof(double[])
-             || objAType == typeof(decimal[])
-             || objAType == typeof(string[])
-             || objAType == typeof(object[]))
+            if (objAType.Name.EndsWith("[]")
+             || objAType == typeof(Array))
             {
                 return Equals((Array)objA, (Array)objB);
             }
@@ -142,21 +129,8 @@ namespace Koyashiro.UdonTest
 
             var objType = obj.GetType();
 
-            if (objType == typeof(bool[])
-             || objType == typeof(char[])
-             || objType == typeof(sbyte[])
-             || objType == typeof(byte[])
-             || objType == typeof(short[])
-             || objType == typeof(ushort[])
-             || objType == typeof(int[])
-             || objType == typeof(uint[])
-             || objType == typeof(long[])
-             || objType == typeof(ulong[])
-             || objType == typeof(float[])
-             || objType == typeof(double[])
-             || objType == typeof(decimal[])
-             || objType == typeof(string[])
-             || objType == typeof(object[]))
+            if (objType.Name.EndsWith("[]")
+             || objType == typeof(Array))
             {
                 return ToDebugString((Array)obj);
             }
