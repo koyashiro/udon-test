@@ -73,8 +73,8 @@ namespace Koyashiro.UdonTest
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
             var message = string.Concat(
-                $"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\n" +
-                $"expected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})\t" +
+                $"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\n",
+                $"expected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})\t",
                 $"actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
             Debug.LogError(message, context);
         }
@@ -86,10 +86,9 @@ namespace Koyashiro.UdonTest
             {
                 return objB == null;
             }
-
-            if (objB == null)
+            else if (objB == null)
             {
-                return objA == null;
+                return false;
             }
 
             var objAType = objA.GetType();
@@ -100,8 +99,7 @@ namespace Koyashiro.UdonTest
                 return false;
             }
 
-            if (objAType.Name.EndsWith("[]")
-             || objAType == typeof(Array))
+            if (objAType.Name.EndsWith("[]"))
             {
                 return Equals((Array)objA, (Array)objB);
             }
@@ -138,8 +136,7 @@ namespace Koyashiro.UdonTest
 
             var objType = obj.GetType();
 
-            if (objType.Name.EndsWith("[]")
-             || objType == typeof(Array))
+            if (objType.Name.EndsWith("[]"))
             {
                 return ToDebugString((Array)obj);
             }
