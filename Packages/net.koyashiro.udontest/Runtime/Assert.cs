@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UdonSharp;
+using Object = UnityEngine.Object;
 
 namespace Koyashiro.UdonTest
 {
@@ -12,62 +13,70 @@ namespace Koyashiro.UdonTest
         private const string COLOR_EXPECTED = "lime";
         private const string COLOR_ACTUAL = "red";
 
-        public static void Equal(object expected, object actual)
+        public static void Equal(object expected, object actual, Object context = null)
         {
             if (!Equals(expected, actual))
             {
-                LogFailed(expected, actual);
+                LogFailed(expected, actual, context);
                 return;
             }
 
-            LogOk(expected, actual);
+            LogOk(expected, actual, context);
         }
 
-        public static void True(bool actual)
+        public static void True(bool actual, Object context = null)
         {
             if (!actual)
             {
-                LogFailed(true, actual);
+                LogFailed(true, actual, context);
                 return;
             }
 
-            LogOk(true, actual);
+            LogOk(true, actual, context);
         }
 
-        public static void False(bool actual)
+        public static void False(bool actual, Object context = null)
         {
             if (actual)
             {
-                LogFailed(false, actual);
+                LogFailed(false, actual, context);
                 return;
             }
 
-            LogOk(false, actual);
+            LogOk(false, actual, context);
         }
 
-        public static void Null(object actual)
+        public static void Null(object actual, Object context = null)
         {
             if (actual != null)
             {
-                LogFailed(null, actual);
+                LogFailed(null, actual, context);
                 return;
             }
 
-            LogOk(null, actual);
+            LogOk(null, actual, context);
         }
 
-        private static void LogOk(object expected, object actual)
+        private static void LogOk(object expected, object actual, Object context)
         {
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
-            Debug.Log($"[<color={COLOR_TAG}>UdonTest</color>] Test <color={CULOR_OK}>OK!</color>\nexpected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})    actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
+            var message = string.Concat(
+                $"[<color={COLOR_TAG}>UdonTest</color>] Test <color={CULOR_OK}>OK!</color>\n",
+                $"expected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})\t",
+                $"actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
+            Debug.Log(message, context);
         }
 
-        private static void LogFailed(object expected, object actual)
+        private static void LogFailed(object expected, object actual, Object context)
         {
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
-            Debug.LogError($"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\nexpected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})    actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
+            var message = string.Concat(
+                $"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\n" +
+                $"expected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})\t" +
+                $"actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
+            Debug.LogError(message, context);
         }
 
         [RecursiveMethod]
