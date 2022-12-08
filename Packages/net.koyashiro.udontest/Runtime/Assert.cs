@@ -1,5 +1,6 @@
 using UnityEngine;
 using UdonSharp;
+using Object = UnityEngine.Object;
 
 namespace Koyashiro.UdonTest
 {
@@ -11,7 +12,7 @@ namespace Koyashiro.UdonTest
         private const string COLOR_EXPECTED = "lime";
         private const string COLOR_ACTUAL = "red";
 
-        public static void Equal(object expected, object actual, UnityEngine.Object context = null)
+        public static void Equal(object expected, object actual, Object context = null)
         {
             if (!Equals(expected, actual))
             {
@@ -22,7 +23,7 @@ namespace Koyashiro.UdonTest
             LogOk(expected, actual, context);
         }
 
-        public static void True(bool actual, UnityEngine.Object context = null)
+        public static void True(bool actual, Object context = null)
         {
             if (!actual)
             {
@@ -33,7 +34,7 @@ namespace Koyashiro.UdonTest
             LogOk(true, actual, context);
         }
 
-        public static void False(bool actual, UnityEngine.Object context = null)
+        public static void False(bool actual, Object context = null)
         {
             if (actual)
             {
@@ -44,7 +45,7 @@ namespace Koyashiro.UdonTest
             LogOk(false, actual, context);
         }
 
-        public static void Null(object actual, UnityEngine.Object context = null)
+        public static void Null(object actual, Object context = null)
         {
             if (actual != null)
             {
@@ -55,7 +56,7 @@ namespace Koyashiro.UdonTest
             LogOk(null, actual, context);
         }
 
-        private static void LogOk(object expected, object actual, UnityEngine.Object context)
+        private static void LogOk(object expected, object actual, Object context)
         {
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
@@ -66,7 +67,7 @@ namespace Koyashiro.UdonTest
             Debug.Log(message, context);
         }
 
-        private static void LogFailed(object expected, object actual, UnityEngine.Object context)
+        private static void LogFailed(object expected, object actual, Object context)
         {
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
