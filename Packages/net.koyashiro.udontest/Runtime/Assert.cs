@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UdonSharp;
 
@@ -72,17 +73,14 @@ namespace Koyashiro.UdonTest
         [RecursiveMethod]
         private static new bool Equals(object objA, object objB)
         {
-            if (objA == null && objB == null)
+            if (objA == null)
             {
-                return true;
+                return objB == null;
             }
 
-            if (
-                (objA == null && objB != null)
-                || (objA != null && objB == null)
-            )
+            if (objB == null)
             {
-                return false;
+                return objA == null;
             }
 
             var objAType = objA.GetType();
@@ -93,105 +91,31 @@ namespace Koyashiro.UdonTest
                 return false;
             }
 
-            if (objAType == typeof(bool[]))
+            if (objAType == typeof(bool[])
+             || objAType == typeof(char[])
+             || objAType == typeof(sbyte[])
+             || objAType == typeof(byte[])
+             || objAType == typeof(short[])
+             || objAType == typeof(ushort[])
+             || objAType == typeof(int[])
+             || objAType == typeof(uint[])
+             || objAType == typeof(long[])
+             || objAType == typeof(ulong[])
+             || objAType == typeof(float[])
+             || objAType == typeof(double[])
+             || objAType == typeof(decimal[])
+             || objAType == typeof(string[])
+             || objAType == typeof(object[]))
             {
-                return Equals((bool[])objA, (bool[])objB);
-            }
-
-            if (objAType == typeof(char[]))
-            {
-                return Equals((char[])objA, (char[])objB);
-            }
-
-            if (objAType == typeof(sbyte[]))
-            {
-                return Equals((sbyte[])objA, (sbyte[])objB);
-            }
-
-            if (objAType == typeof(byte[]))
-            {
-                return Equals((byte[])objA, (byte[])objB);
-            }
-
-            if (objAType == typeof(short[]))
-            {
-                return Equals((short[])objA, (short[])objB);
-            }
-
-            if (objAType == typeof(ushort[]))
-            {
-                return Equals((ushort[])objA, (ushort[])objB);
-            }
-
-            if (objAType == typeof(int[]))
-            {
-                return Equals((int[])objA, (int[])objB);
-            }
-
-            if (objAType == typeof(uint[]))
-            {
-                return Equals((uint[])objA, (uint[])objB);
-            }
-
-            if (objAType == typeof(long[]))
-            {
-                return Equals((long[])objA, (long[])objB);
-            }
-
-            if (objAType == typeof(ulong[]))
-            {
-                return Equals((ulong[])objA, (ulong[])objB);
-            }
-
-            if (objAType == typeof(float[]))
-            {
-                return Equals((float[])objA, (float[])objB);
-            }
-
-            if (objAType == typeof(double[]))
-            {
-                return Equals((double[])objA, (double[])objB);
-            }
-
-            if (objAType == typeof(decimal[]))
-            {
-                return Equals((decimal[])objA, (decimal[])objB);
-            }
-
-            if (objAType == typeof(string[]))
-            {
-                return Equals((string[])objA, (string[])objB);
-            }
-
-            if (objAType == typeof(object[]))
-            {
-                return Equals((object[])objA, (object[])objB);
+                return Equals((Array)objA, (Array)objB);
             }
 
             return object.Equals(objA, objB);
         }
 
         [RecursiveMethod]
-        private static bool Equals<TA, TB>(TA[] objA, TB[] objB)
+        private static bool Equals(Array objA, Array objB)
         {
-            if (objA == null && objB == null)
-            {
-                return true;
-            }
-
-            if (
-                (objA == null && objB != null)
-                || (objA != null && objB == null)
-            )
-            {
-                return false;
-            }
-
-            if (objA.GetType() != objB.GetType())
-            {
-                return false;
-            }
-
             if (objA.Length != objB.Length)
             {
                 return false;
@@ -199,7 +123,7 @@ namespace Koyashiro.UdonTest
 
             for (int i = 0, l = objA.Length; i < l; i++)
             {
-                if (!Equals(objA[i], objB[i]))
+                if (!Equals(objA.GetValue(i), objB.GetValue(i)))
                 {
                     return false;
                 }
@@ -218,79 +142,23 @@ namespace Koyashiro.UdonTest
 
             var objType = obj.GetType();
 
-            if (objType == typeof(bool[]))
+            if (objType == typeof(bool[])
+             || objType == typeof(char[])
+             || objType == typeof(sbyte[])
+             || objType == typeof(byte[])
+             || objType == typeof(short[])
+             || objType == typeof(ushort[])
+             || objType == typeof(int[])
+             || objType == typeof(uint[])
+             || objType == typeof(long[])
+             || objType == typeof(ulong[])
+             || objType == typeof(float[])
+             || objType == typeof(double[])
+             || objType == typeof(decimal[])
+             || objType == typeof(string[])
+             || objType == typeof(object[]))
             {
-                return ToDebugString((bool[])obj);
-            }
-
-            if (objType == typeof(char[]))
-            {
-                return ToDebugString((char[])obj);
-            }
-
-            if (objType == typeof(sbyte[]))
-            {
-                return ToDebugString((sbyte[])obj);
-            }
-
-            if (objType == typeof(byte[]))
-            {
-                return ToDebugString((byte[])obj);
-            }
-
-            if (objType == typeof(short[]))
-            {
-                return ToDebugString((short[])obj);
-            }
-
-            if (objType == typeof(ushort[]))
-            {
-                return ToDebugString((ushort[])obj);
-            }
-
-            if (objType == typeof(int[]))
-            {
-                return ToDebugString((int[])obj);
-            }
-
-            if (objType == typeof(uint[]))
-            {
-                return ToDebugString((uint[])obj);
-            }
-
-            if (objType == typeof(long[]))
-            {
-                return ToDebugString((long[])obj);
-            }
-
-            if (objType == typeof(ulong[]))
-            {
-                return ToDebugString((ulong[])obj);
-            }
-
-            if (objType == typeof(float[]))
-            {
-                return ToDebugString((float[])obj);
-            }
-
-            if (objType == typeof(double[]))
-            {
-                return ToDebugString((double[])obj);
-            }
-
-            if (objType == typeof(decimal[]))
-            {
-                return ToDebugString((decimal[])obj);
-            }
-
-            if (objType == typeof(string[]))
-            {
-                return ToDebugString((string[])obj);
-            }
-
-            if (objType == typeof(object[]))
-            {
-                return ToDebugString((object[])obj);
+                return ToDebugString((Array)obj);
             }
 
             if (objType == typeof(string))
@@ -302,18 +170,13 @@ namespace Koyashiro.UdonTest
         }
 
         [RecursiveMethod]
-        private static string ToDebugString<T>(T[] obj)
+        private static string ToDebugString(Array obj)
         {
-            if (obj == null)
-            {
-                return "null";
-            }
-
-            var array = (T[])obj;
+            var array = obj;
             var buf = new string[array.Length];
             for (int i = 0, l = array.Length; i < l; i++)
             {
-                buf[i] = ToDebugString(array[i]);
+                buf[i] = ToDebugString(array.GetValue(i));
             }
             return $"[{string.Join(", ", buf)}]";
         }
