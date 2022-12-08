@@ -100,8 +100,7 @@ namespace Koyashiro.UdonTest
                 return false;
             }
 
-            if (objAType.Name.EndsWith("[]")
-             || objAType == typeof(Array))
+            if (objAType.Name.EndsWith("[]"))
             {
                 return Equals((Array)objA, (Array)objB);
             }
@@ -138,8 +137,7 @@ namespace Koyashiro.UdonTest
 
             var objType = obj.GetType();
 
-            if (objType.Name.EndsWith("[]")
-             || objType == typeof(Array))
+            if (objType.Name.EndsWith("[]"))
             {
                 return ToDebugString((Array)obj);
             }
