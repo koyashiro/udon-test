@@ -73,8 +73,8 @@ namespace Koyashiro.UdonTest
             var expectedType = expected == null ? "null" : expected.GetType().ToString();
             var actualType = actual == null ? "null" : actual.GetType().ToString();
             var message = string.Concat(
-                $"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\n" +
-                $"expected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})\t" +
+                $"[<color={COLOR_TAG}>UdonTest</color>] Test <color={COLOR_FAILED}>FAILED!</color>\n",
+                $"expected: <color={COLOR_EXPECTED}>{ToDebugString(expected)}</color> ({expectedType})\t",
                 $"actual: <color={COLOR_ACTUAL}>{ToDebugString(actual)}</color> ({actualType})");
             Debug.LogError(message, context);
         }
