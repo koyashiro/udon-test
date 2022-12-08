@@ -1,5 +1,5 @@
 {
-    "name": "Koyashiro.UdonTest.Runtime",
+    "name": "Koyashiro.UdonTest",
     "references": [
         "UdonSharp.Runtime"
     ],
