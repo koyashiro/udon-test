@@ -1,6 +1,7 @@
 {
     "name": "Koyashiro.UdonTest",
     "references": [
+        "VRC.SDKBase",
         "UdonSharp.Runtime"
     ],
     "includePlatforms": [],
