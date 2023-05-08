@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using VRC.SDK3.Data;
 using UdonSharp;
 using Object = UnityEngine.Object;
 
@@ -104,6 +105,21 @@ namespace Koyashiro.UdonTest
                 return Equals((Array)objA, (Array)objB);
             }
 
+            if (objAType == typeof(DataToken))
+            {
+                return Equals((DataToken)objA, (DataToken)objB);
+            }
+
+            if (objAType == typeof(DataList))
+            {
+                return Equals((DataList)objA, (DataList)objB);
+            }
+
+            if (objAType == typeof(DataDictionary))
+            {
+                return Equals((DataDictionary)objA, (DataDictionary)objB);
+            }
+
             return object.Equals(objA, objB);
         }
 
@@ -118,6 +134,96 @@ namespace Koyashiro.UdonTest
             for (int i = 0, l = objA.Length; i < l; i++)
             {
                 if (!Equals(objA.GetValue(i), objB.GetValue(i)))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        [RecursiveMethod]
+        private static bool Equals(DataToken objA, DataToken objB)
+        {
+            if (objA.TokenType != objB.TokenType)
+            {
+                return false;
+            }
+
+            switch (objA.TokenType)
+            {
+                case TokenType.Null:
+                    return true;
+                case TokenType.Boolean:
+                    return objA.Boolean == objB.Boolean;
+                case TokenType.SByte:
+                    return objA.SByte == objB.SByte;
+                case TokenType.Byte:
+                    return objA.Byte == objB.Byte;
+                case TokenType.Short:
+                    return objA.Short == objB.Short;
+                case TokenType.UShort:
+                    return objA.UShort == objB.UShort;
+                case TokenType.Int:
+                    return objA.Int == objB.Int;
+                case TokenType.UInt:
+                    return objA.UInt == objB.UInt;
+                case TokenType.Long:
+                    return objA.Long == objB.Long;
+                case TokenType.ULong:
+                    return objA.ULong == objB.ULong;
+                case TokenType.Float:
+                    return objA.Float == objB.Float;
+                case TokenType.Double:
+                    return objA.Double == objB.Double;
+                case TokenType.String:
+                    return objA.String == objB.String;
+                case TokenType.DataList:
+                    return Equals(objA.DataList, objB.DataList);
+                case TokenType.DataDictionary:
+                    return Equals(objA.DataDictionary, objB.DataDictionary);
+                case TokenType.Reference:
+                    return Equals(objA.Reference, objB.Reference);
+                case TokenType.Error:
+                    return objA.Error == objB.Error;
+                // NOTE: unreachable
+                default:
+                    return default;
+            }
+        }
+
+        [RecursiveMethod]
+        private static bool Equals(DataList objA, DataList objB)
+        {
+            if (objA.Count != objB.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < objA.Count; i++)
+            {
+                if (!Equals(objA[i], objB[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        [RecursiveMethod]
+        private static bool Equals(DataDictionary objA, DataDictionary objB)
+        {
+            if (objA.Count != objB.Count)
+            {
+                return false;
+            }
+
+            var keys = objA.GetKeys();
+            for (var i = 0; i < keys.Count; i++)
+            {
+                var key = keys[i];
+                if (!Equals(objA[key], objB[key]))
                 {
                     return false;
                 }
@@ -143,10 +249,30 @@ namespace Koyashiro.UdonTest
 
             if (objType == typeof(string))
             {
-                return $@"""{obj}""";
+                return ToDebugString((string)obj);
+            }
+
+            if (objType == typeof(DataToken))
+            {
+                return ToDebugString((DataToken)obj);
+            }
+
+            if (objType == typeof(DataList))
+            {
+                return ToDebugString((DataList)obj);
+            }
+
+            if (objType == typeof(DataDictionary))
+            {
+                return ToDebugString((DataDictionary)obj);
             }
 
             return obj.ToString();
+        }
+
+        private static string ToDebugString(string obj)
+        {
+            return $"\"{obj}\"";
         }
 
         [RecursiveMethod]
@@ -159,6 +285,65 @@ namespace Koyashiro.UdonTest
                 buf[i] = ToDebugString(array.GetValue(i));
             }
             return $"[{string.Join(", ", buf)}]";
+        }
+
+        [RecursiveMethod]
+        private static string ToDebugString(DataToken obj)
+        {
+            switch (obj.TokenType)
+            {
+                case TokenType.Null:
+                    return "DataToken(null)";
+                case TokenType.Boolean:
+                case TokenType.SByte:
+                case TokenType.Byte:
+                case TokenType.Short:
+                case TokenType.UShort:
+                case TokenType.Int:
+                case TokenType.UInt:
+                case TokenType.Long:
+                case TokenType.ULong:
+                case TokenType.Float:
+                case TokenType.Double:
+                case TokenType.String:
+                case TokenType.Reference:
+                case TokenType.Error:
+                    return $"DataToken({obj})";
+                case TokenType.DataList:
+                    return $"DataToken({ToDebugString((DataList)obj)})";
+                case TokenType.DataDictionary:
+                    return $"DataToken({ToDebugString((DataDictionary)obj)})";
+                // NOTE: unreachable
+                default:
+                    return default;
+            }
+        }
+
+        [RecursiveMethod]
+        private static string ToDebugString(DataList obj)
+        {
+            var list = obj;
+            var buf = new string[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                buf[i] = ToDebugString(list[i]);
+            }
+            return $"DataList([{string.Join(", ", buf)}])";
+        }
+
+        [RecursiveMethod]
+        private static string ToDebugString(DataDictionary obj)
+        {
+            var dic = obj;
+            var keys = dic.GetKeys();
+            var buf = new string[keys.Count];
+            for (int i = 0; i < keys.Count; i++)
+            {
+                var key = keys[i];
+                var value = dic[key];
+                buf[i] = $"{ToDebugString(key)}: {ToDebugString(value)}";
+            }
+            return $"DataDictionary({{{string.Join(", ", buf)}}})";
         }
     }
 }
