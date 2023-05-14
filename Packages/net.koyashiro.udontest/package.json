@@ -26,8 +26,8 @@
   ],
   "url": "https://github.com/koyashiro/udon-test/releases/download/v0.5.1/net.koyashiro.udontest-0.5.1.zip",
   "vpmDependencies": {
-    "com.vrchat.base": "3.2.0",
-    "com.vrchat.udonsharp": "1.1.8"
+    "com.vrchat.base": "^3.2.x",
+    "com.vrchat.udonsharp": "^1.1.8"
   },
   "repo": "https://vpm.koyashiro.net/index.json"
 }
