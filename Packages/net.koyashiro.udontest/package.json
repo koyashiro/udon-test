@@ -1,7 +1,7 @@
 {
   "name": "net.koyashiro.udontest",
   "displayName": "UdonTest",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Simple test library for UdonSharp.",
   "homepage": "https://github.com/koyashiro/udon-test",
   "bugs": {
@@ -24,7 +24,7 @@
       "path": "Samples~/UdonTestSample"
     }
   ],
-  "url": "https://github.com/koyashiro/udon-test/releases/download/v0.5.1/net.koyashiro.udontest-0.5.1.zip",
+  "url": "https://github.com/koyashiro/udon-test/releases/download/v0.5.2/net.koyashiro.udontest-0.5.2.zip",
   "vpmDependencies": {
     "com.vrchat.base": "^3.2.x",
     "com.vrchat.udonsharp": "^1.1.8"
